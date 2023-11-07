@@ -1,1 +1,2 @@
-# Mini-LinkedIn
+# LinkedIn
+Distributed Systems Project
