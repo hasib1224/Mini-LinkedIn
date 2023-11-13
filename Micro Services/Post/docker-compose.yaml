@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  post:
+    build: ./post-server
+    container_name: post
+    ports:
+      - '8002:8002'
+    volumes:
+      - ./post-server:/linkedin/post
+      - ./mini-linkedin/post/node_modules

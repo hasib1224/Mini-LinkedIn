@@ -1,0 +1,25 @@
+/* notifications.css */
+
+.notification-popup {
+    /* Add your CSS styles here */
+    width: 400px;
+    position: fixed;
+    top: 50px;
+    /* Adjust the top position as needed */
+    right: 20px;
+    /* Adjust the right position as needed */
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.notifications{
+    text-align: left;
+    cursor: 'pointer';
+}
+
+.notifications:hover{
+    border-radius:'10px';
+    background-color: #f2f2f2;
+    cursor: pointer;
+    transform: scale(1.05);}

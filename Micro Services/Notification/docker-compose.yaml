@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  notification:
+    build: ./notification-server
+    container_name: notification
+    ports:
+      - '8001:8001'
+    volumes:
+      - ./notification-server:/linkedin/notification
+      - ./mini-linkedin/notification/node_modules

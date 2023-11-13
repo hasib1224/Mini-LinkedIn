@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: frontend
+    image: frontend
+
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
+
+  user:
+    build: ./Authentication/auth-server
+    container_name: user
+    image: user
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./Authentication/auth-server:/mini-linkedin/authentication
+      - ./mini-linkedin/authentication/node_modules
+  
+  notification:
+    build: ./Notification/notification-server
+    container_name: notification
+    image: notification
+    ports:
+      - '8001:8001'
+    volumes:
+      - ./Notification/notification-server:/mini-linkedin/notification
+      - ./mini-linkedin/notification/node_modules
+
+  post:
+    build: ./Post/post-server
+    container_name: post
+    image: post
+
+    ports:
+      - '8002:8002'
+    volumes:
+      - ./Post/post-server:/mini-linkedin/post
+      - ./mini-linkedin/post/node_modules
+
+  user_db:
+    image: mongo:latest
+    container_name: user_db
+    restart: unless-stopped
+    volumes:
+      - user_data:/data/db
+
+  post_db:
+    image: mongo:latest
+    container_name: post_db
+    restart: unless-stopped
+    volumes:
+      - post_data:/data/db
+  
+  minio:
+    image: minio/minio:latest
+    ports:
+      - 9000:9000
+      - 9090:9090 
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+
+    command: server /data --console-address ":9090"
+
+    volumes:
+      - ~/minio/data:/data
+
+  notification_db:
+    image: mongo:latest
+    container_name: notification_db
+    restart: unless-stopped
+    volumes:
+      - notification_data:/data/db
+
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+volumes:
+  user_data:
+  post_data:
+  notification_data:

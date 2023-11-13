@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  user:
+    build: ./auth-server
+    container_name: user
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./auth-server/linkedin/authentication
+      - ./mini-linkedin/authentication/node_modules
